@@ -236,6 +236,7 @@ PreferencesBuilder.prototype.setDebugPref = function() {
   // see Bug 1097912
   this.userPrefs['browser.tabs.remote.autostart'] = false;
   this.userPrefs['browser.tabs.remote.autostart.1'] = false;
+  this.userPrefs['browser.tabs.remote.autostart.2'] = false;
 };
 
 PreferencesBuilder.prototype.setDeviceDebugPref = function() {
