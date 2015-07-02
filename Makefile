@@ -724,7 +724,7 @@ modules.tar: gaia_node_modules.revision $(NODE_MODULES_CACHEDIR)/$(NODE_MODULES_
 $(NODE_MODULES_CACHEDIR)/$(NODE_MODULES_REV): gaia_node_modules.revision
 	@echo Downloading latest node_modules package. This may take several minutes...
 	mkdir -p "$(NODE_MODULES_CACHEDIR)"
-	-cd "$(NODE_MODULES_CACHEDIR)" && $(DOWNLOAD_CMD) https://github.com/mozilla-b2g/gaia-node-modules/tarball/$(NODE_MODULES_REV)
+	-cd "$(NODE_MODULES_CACHEDIR)" && $(DOWNLOAD_CMD) https://github.com/a-os/gaia-node-modules/tarball/$(NODE_MODULES_REV)
 
 gaia.zip: $(DEFAULT_KEYBOAD_SYMBOLS_FONT) $(DEFAULT_GAIA_ICONS_FONT) $(PROFILE_FOLDER)
 	@mkdir -p tmp/gaia tmp/gonk/system/fonts/hidden && cp -r $(PROFILE_FOLDER) tmp/gaia && \
