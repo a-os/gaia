@@ -1,4 +1,5 @@
 #! /bin/bash -ve
+make node_modules
 
 echo "Downloading b2g-desktop"
 make b2g

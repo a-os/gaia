@@ -1,6 +1,7 @@
 before_install:
+  - npm install -g npm@'2.1.4'
   - travis_retry make node_modules
-  - source ./tests/travis_ci/venv.sh
+  - source ./tests/ci/venv.sh
 install: ./node_modules/.bin/travisaction $CI_ACTION install
 before_script:
   - export DISPLAY=:99.0
@@ -15,6 +16,9 @@ env:
   matrix:
   - CI_ACTION=linters
   - CI_ACTION=unit-tests-in-firefox
+  - CI_ACTION=marionette_js PART=1 NBPARTS=3
+  - CI_ACTION=marionette_js PART=2 NBPARTS=3
+  - CI_ACTION=marionette_js PART=3 NBPARTS=3
 matrix:
   fast_finish: true
 notifications:
