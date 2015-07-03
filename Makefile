@@ -754,15 +754,27 @@ npm-cache:
 	touch -c node_modules
 #	@echo $(shell $(NODEJS) --version |awk -F. '{print $1, $2}')
 
-node_modules: package.json
-ifneq ($(NODEJS),)
-ifneq ($(NODE_VERSION),$(shell $(NODEJS) --version | awk -F. '{print $$1"."$$2}'))
-	@printf '\033[0;33mPlease use $(NODE_VERSION) of nodejs or it may cause unexpected error.\033[0m\n'
+node_modules: gaia_node_modules.revision
+	# Running make without using a dependency ensures that we can run
+	# "make node_modules" with a custom NODE_MODULES_GIT_URL variable, and then
+	# run another target without specifying the variable
+	$(MAKE) $(NODE_MODULES_SRC)
+ifeq "$(NODE_MODULES_SRC)" "modules.tar"
+	$(TAR_WILDCARDS) --strip-components 1 -x -m -f $(NODE_MODULES_SRC) "a-os-gaia-node-modules-*/node_modules"
+else ifeq "$(NODE_MODULES_SRC)" "git-gaia-node-modules"
+	rm -fr node_modules
+	cp -R $(NODE_MODULES_SRC)/node_modules node_modules
 endif
+ifneq "$(NODE_MODULES_SRC)" "npm-cache"
+	node --version
+	npm --version
+	VIRTUALENV_EXISTS=$(VIRTUALENV_EXISTS) npm install && npm rebuild
+	@echo "node_modules installed."
+	touch -c $@
 endif
-	# TODO: Get rid of references to gaia-node-modules stuff.
-	npm install
-	npm run refresh
+ifeq ($(BUILDAPP),device)
+	export LANG=en_US.UTF-8;
+endif
 
 ###############################################################################
 # Tests                                                                       #
