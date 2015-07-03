@@ -19,12 +19,14 @@ setup_venv() {
     python virtualenv-${VERSION_VIRTUALENV}/virtualenv.py ${DIR_TEST_ENV}
   fi
 
+  echo "activate virtualenv"
   source $DIR_TEST_ENV/bin/activate
 }
 
 if [ "$VIRTUAL_ENV" != "$DIR_TEST_ENV" ]
 then
   # don't rerun virutal env if already in the right venv
+  echo "going to setup venv"
   setup_venv
 fi
 
