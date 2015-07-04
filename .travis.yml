@@ -17,9 +17,9 @@ env:
   matrix:
   - CI_ACTION=linters
   - CI_ACTION=unit-tests-in-firefox
-  - CI_ACTION=marionette_js PART=1 NBPARTS=3 VIRTUALENV_EXISTS=true
-  - CI_ACTION=marionette_js PART=2 NBPARTS=3 VIRTUALENV_EXISTS=true
-  - CI_ACTION=marionette_js PART=3 NBPARTS=3 VIRTUALENV_EXISTS=true
+  - CI_ACTION=marionette_js PART=1 NBPARTS=3
+  - CI_ACTION=marionette_js PART=2 NBPARTS=3
+  - CI_ACTION=marionette_js PART=3 NBPARTS=3
 matrix:
   fast_finish: true
 notifications:
