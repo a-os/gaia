@@ -6,5 +6,3 @@ make b2g
 # Install virtualenv and radicale on Travis.
 make caldav-server-install
 
-echo "Do npm install and npm rebuild again"
-npm install && npm rebuild

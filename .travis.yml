@@ -1,7 +1,7 @@
 before_install:
   - npm install -g npm@'2.1.4'
   - travis_retry make b2g_sdk
-  - travis_retry make node_modules
+  - npm install && npm rebuild
   - source ./tests/ci/venv.sh
 install: ./node_modules/.bin/travisaction $CI_ACTION install
 before_script:
