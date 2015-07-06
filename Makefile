@@ -724,7 +724,7 @@ modules.tar: gaia_node_modules.revision $(NODE_MODULES_CACHEDIR)/$(NODE_MODULES_
 $(NODE_MODULES_CACHEDIR)/$(NODE_MODULES_REV): gaia_node_modules.revision
 	@echo Downloading latest node_modules package. This may take several minutes...
 	mkdir -p "$(NODE_MODULES_CACHEDIR)"
-	-cd "$(NODE_MODULES_CACHEDIR)" && $(DOWNLOAD_CMD) https://github.com/mozilla-b2g/gaia-node-modules/tarball/$(NODE_MODULES_REV)
+	-cd "$(NODE_MODULES_CACHEDIR)" && $(DOWNLOAD_CMD) https://github.com/a-os/gaia-node-modules/tarball/$(NODE_MODULES_REV)
 
 gaia.zip: $(DEFAULT_KEYBOAD_SYMBOLS_FONT) $(DEFAULT_GAIA_ICONS_FONT) $(PROFILE_FOLDER)
 	@mkdir -p tmp/gaia tmp/gonk/system/fonts/hidden && cp -r $(PROFILE_FOLDER) tmp/gaia && \
@@ -754,15 +754,24 @@ npm-cache:
 	touch -c node_modules
 #	@echo $(shell $(NODEJS) --version |awk -F. '{print $1, $2}')
 
-node_modules: package.json
-ifneq ($(NODEJS),)
-ifneq ($(NODE_VERSION),$(shell $(NODEJS) --version | awk -F. '{print $$1"."$$2}'))
-	@printf '\033[0;33mPlease use $(NODE_VERSION) of nodejs or it may cause unexpected error.\033[0m\n'
+node_modules: gaia_node_modules.revision
+	# Running make without using a dependency ensures that we can run
+	# "make node_modules" with a custom NODE_MODULES_GIT_URL variable, and then
+	# run another target without specifying the variable
+	$(MAKE) $(NODE_MODULES_SRC)
+ifeq "$(NODE_MODULES_SRC)" "modules.tar"
+	$(TAR_WILDCARDS) --strip-components 1 -x -m -f $(NODE_MODULES_SRC) "a-os-gaia-node-modules-*/node_modules"
+else
+	rm -fr node_modules
+	cp -R $(NODE_MODULES_SRC)/node_modules node_modules
 endif
+	npm install && npm rebuild
+	@echo "node_modules installed."
+	touch -c $@
+ifeq ($(BUILDAPP),device)
+	export LANG=en_US.UTF-8; \
+	npm install marionette-socket-host
 endif
-	# TODO: Get rid of references to gaia-node-modules stuff.
-	npm install
-	npm run refresh
 
 ###############################################################################
 # Tests                                                                       #
