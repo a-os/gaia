@@ -1,3 +1,8 @@
 #! /bin/bash -vex
 
-make test-integration
+if [ -z "$TEST_APP" ]; then
+  make test-integration TEST_MANIFEST=./shared/test/integration/travis-manifest.json
+else
+  make test-integration TEST_MANIFEST=./shared/test/integration/travis-manifest.json APP=$TEST_APP
+fi
+

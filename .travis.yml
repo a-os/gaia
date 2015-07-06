@@ -1,0 +1,82 @@
+language: node_js
+sudo: required
+node_js:
+  - "0.10.36"
+before_install:
+  - sudo pip install virtualenv
+  - npm install -g npm@'2.11.0'
+  - travis_retry make node_modules
+  - source ./tests/ci/venv.sh
+install: ./node_modules/.bin/travisaction $CI_ACTION install
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - ./node_modules/.bin/travisaction $CI_ACTION before_script
+script: ./node_modules/.bin/travisaction $CI_ACTION script
+after_script: ./node_modules/.bin/travisaction $CI_ACTION after_script
+branches:
+  only:
+    - master-test-2
+env:
+  matrix:
+    - CI_ACTION=linters
+    - CI_ACTION=build_unit
+    - CI_ACTION=build_integration
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=bluetooth
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=bookmark
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=calendar
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=callscreen
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=camera
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=clock
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=collection
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=communications/dialer
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=communications/contacts
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=costcontrol
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=download
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=email
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=emergency-call
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=findmydevice
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=fl
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=fm
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=ftu
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=gallery
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=keyboard
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=music
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=network-alerts
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=operatorvariant
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=privacy-panel
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=ringtones
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=search
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=settings
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=sharedtest
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=sms
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=system
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=verticalhome
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=video
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=wallpaper
+    - CI_ACTION=unit-tests-in-firefox TEST_APP=wappush
+    - CI_ACTION=marionette_js TEST_APP=bookmark
+    - CI_ACTION=marionette_js TEST_APP=calendar
+    - CI_ACTION=marionette_js TEST_APP=camera
+    - CI_ACTION=marionette_js TEST_APP=clock
+    - CI_ACTION=marionette_js TEST_APP=communications/dialer
+    - CI_ACTION=marionette_js TEST_APP=communications/contacts
+    - CI_ACTION=marionette_js TEST_APP=costcontrol
+    - CI_ACTION=marionette_js TEST_APP=email
+    - CI_ACTION=marionette_js TEST_APP=findmydevice
+    - CI_ACTION=marionette_js TEST_APP=ftu
+    - CI_ACTION=marionette_js TEST_APP=gallery
+    - CI_ACTION=marionette_js TEST_APP=keyboard
+    - CI_ACTION=marionette_js TEST_APP=music
+    - CI_ACTION=marionette_js TEST_APP=privacy-panel
+    - CI_ACTION=marionette_js TEST_APP=ringtones
+    - CI_ACTION=marionette_js TEST_APP=search
+    - CI_ACTION=marionette_js TEST_APP=settings
+    - CI_ACTION=marionette_js TEST_APP=sms
+    - CI_ACTION=marionette_js TEST_APP=system
+    - CI_ACTION=marionette_js TEST_APP=verticalhome
+    - CI_ACTION=marionette_js TEST_APP=video
+matrix:
+  fast_finish: true
+notifications:
+  email: false
