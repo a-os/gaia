@@ -3,6 +3,7 @@ sudo: required
 node_js:
   - "0.10.36"
 before_install:
+  - sudo pip install virtualenv
   - npm install -g npm@'2.11.0'
   - travis_retry make node_modules
   - source ./tests/ci/venv.sh
@@ -20,7 +21,7 @@ env:
   matrix:
     - CI_ACTION=linters
     - CI_ACTION=unit-tests-in-firefox
-    - CI_ACTION=marionette_js PART=1 NBPARTS=10 VIRTUALENV_EXISTS=1
+    - CI_ACTION=marionette_js PART=1 NBPARTS=10
 matrix:
   fast_finish: true
 notifications:
