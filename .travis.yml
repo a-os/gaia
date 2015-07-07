@@ -5,6 +5,7 @@ node_js:
 before_install:
   - npm install -g travis-project-jobs
   - npm install -g npm@'2.11.0'
+  - sudo pip install virtualenv
   - source ./tests/ci/venv.sh
 install:
   - travisaction $CI_ACTION install
