@@ -1,5 +1,7 @@
 #! /bin/bash -ve
 
+sudo pip install virtualenv
+
 echo "Downloading b2g-desktop"
 make b2g
 

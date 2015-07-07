@@ -3,11 +3,11 @@ sudo: required
 node_js:
   - "0.10.36"
 before_install:
-  - sudo pip install virtualenv
+  - npm install travis-project-jobs
   - npm install -g npm@'2.11.0'
-  - travis_retry make node_modules
   - source ./tests/ci/venv.sh
-install: ./node_modules/.bin/travisaction $CI_ACTION install
+install:
+  - ./node_modules/.bin/travisaction $CI_ACTION install
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
@@ -20,8 +20,26 @@ branches:
 env:
   matrix:
     - CI_ACTION=linters
-    - CI_ACTION=unit-tests-in-firefox
-    - CI_ACTION=marionette_js PART=1 NBPARTS=10
+    - CI_ACTION=unit-tests-in-firefox APP=system
+    - CI_ACTION=marionette_js PART=1 NBPARTS=20
+    - CI_ACTION=marionette_js PART=2 NBPARTS=20
+    - CI_ACTION=marionette_js PART=3 NBPARTS=20
+    - CI_ACTION=marionette_js PART=4 NBPARTS=20
+    - CI_ACTION=marionette_js PART=5 NBPARTS=20
+    - CI_ACTION=marionette_js PART=6 NBPARTS=20
+    - CI_ACTION=marionette_js PART=7 NBPARTS=20
+    - CI_ACTION=marionette_js PART=8 NBPARTS=20
+    - CI_ACTION=marionette_js PART=9 NBPARTS=20
+    - CI_ACTION=marionette_js PART=11 NBPARTS=20
+    - CI_ACTION=marionette_js PART=12 NBPARTS=20
+    - CI_ACTION=marionette_js PART=13 NBPARTS=20
+    - CI_ACTION=marionette_js PART=14 NBPARTS=20
+    - CI_ACTION=marionette_js PART=15 NBPARTS=20
+    - CI_ACTION=marionette_js PART=16 NBPARTS=20
+    - CI_ACTION=marionette_js PART=17 NBPARTS=20
+    - CI_ACTION=marionette_js PART=18 NBPARTS=20
+    - CI_ACTION=marionette_js PART=19 NBPARTS=20
+    - CI_ACTION=marionette_js PART=20 NBPARTS=20
 matrix:
   fast_finish: true
 notifications:
